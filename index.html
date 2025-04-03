@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr" class="h-full">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
@@ -7,11 +7,13 @@
     <link href="/src/style.css" rel="stylesheet">
     <title>Vite + TS</title>
   </head>
-  <body>
-    <h1 class="text-3xl underline text-red-500">
-      Hello world!
-    </h1>
-    <div id="app">
+  <body class="h-full">
+    <iframe id="ai-result" class="w-full h-full bg-red-300"></iframe>
+    <div class="absolute bottom-2 left-0 right-0 flex justify-center items-center">
+      <form class="flex gap-4 justify-center items-center bg-gray-200 rounded-md p-3 shadow-md">
+        <textarea name="prompt" id="text" class="h-18 w-80 bg-white rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Une belle landing page ..."></textarea>
+        <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center cursor-pointer">Generate</button>
+      </form>
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>

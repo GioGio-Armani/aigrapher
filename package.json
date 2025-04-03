@@ -13,7 +13,10 @@
     "vite": "^6.2.0"
   },
   "dependencies": {
+    "@langchain/core": "^0.3.43",
+    "@langchain/ollama": "^0.2.0",
     "@tailwindcss/vite": "^4.1.1",
+    "langchain": "^0.3.19",
     "tailwindcss": "^4.1.1"
   }
 }
