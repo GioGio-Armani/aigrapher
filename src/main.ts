@@ -22,19 +22,25 @@ form?.addEventListener('submit', async (e) => {
             Tu renvoies uniquement le code html, sans aucun commentaire ni texte avant ou après.
             tu renvoies du html valide.
             **tu n'ajoutes JAMAIS de syntaxe markdown.**
+            **tu n'ajoutes JAMAIS de balise html.**
+            **tu n'ajoutes JAMAIS de balise body.**
+            **tu n'ajoutes JAMAIS de balise head.**
             `
         ],
        new MessagesPlaceholder("messages")
     ]);
     const chain = promptTemplate.pipe(llm);
-    const result = await chain.invoke({ messages: [new HumanMessage(userPrompt)] });
-    console.log(result);
-    const content = result.content.toString();
-    if(content.includes("```html")) {
-      const html = content.replace("```html", "").replace("```", "");
-      iframe.srcdoc = `
-      <!DOCTYPE html>
-      <html lang="fr">
+    let html = '';
+    let lastUpdateTime = Date.now();
+    const updateInterval = 1000; // Update every 1 second
+    for await (const result of await chain.stream({messages: [new HumanMessage(userPrompt)]})) {
+      html += result.content.toString();
+      console.log(html);
+      if (Date.now() - lastUpdateTime >= updateInterval) {
+        html = html.replace("```html", "").replace("```", "");
+        iframe.srcdoc = `
+        <!DOCTYPE html>
+        <html lang="fr">
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,6 +51,9 @@ form?.addEventListener('submit', async (e) => {
           ${html}
         </body>
       </html>
-      `;
+        `;
+        lastUpdateTime = Date.now();
+      }
+
     }
 }); 
